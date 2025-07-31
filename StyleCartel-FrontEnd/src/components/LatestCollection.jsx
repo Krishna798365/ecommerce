@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState, useContext } from 'react'
 import { ShopContext } from '../context/ShopContext'
-import Title from '../components/Title'
+import Title from './Title'
 import { Link } from 'react-router-dom'
 
 const CARD_WIDTH = 200 // Adjust as needed

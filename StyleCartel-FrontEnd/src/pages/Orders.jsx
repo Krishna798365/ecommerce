@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { ShopContext } from "../context/ShopContext";
 import Title from "../components/Title";
-import { useEffect, useState, useContext } from "react";
 import axios from "axios";
-import { toast } from "react-toastify";
 
 const Orders = () => {
   const { backendurl, token, currency } = useContext(ShopContext);
@@ -14,7 +12,7 @@ const Orders = () => {
       if (!token) return;
 
       const response = await axios.post(
-        backendurl + "/api/order/userorders",
+        `${backendurl}/api/order/userorders`,
         {},
         { headers: { token } }
       );
@@ -22,6 +20,7 @@ const Orders = () => {
       if (response.data.success) {
         let allOrdersItem = [];
         response.data.orders.map((order) => {
+          if (order.status === "Cancelled") return; // ❌ Skip cancelled orders
           order.items.map((item) => {
             item["status"] = order.status;
             item["payment"] = order.payment;
@@ -31,42 +30,35 @@ const Orders = () => {
             allOrdersItem.push(item);
           });
         });
-        setOrderData(allOrdersItem.filter(item => item.status !== "Cancelled").reverse());
-
+        setOrderData(allOrdersItem.reverse());
       }
     } catch (error) {
       console.error("Error loading orders", error);
     }
   };
 
-
- const handleCancelOrder = async (orderId) => {
-  try {
-    if (!orderId || !token) {
-     
-      return;
-    }
-
-    const res = await axios.delete(
-      `${backendurl}/api/order/cancel`,
-      { orderId },
-      {
-        headers: {
-          token, // you're already using this format elsewhere
-        },
+  const handleCancelOrder = async (orderId) => {
+    try {
+      if (!orderId || !token) {
+        alert("Missing order ID or token");
+        return;
       }
-    );
 
-    toast.success("Order cancelled successfully");
-    
-    loadorderdata(); // Reload without full refresh
-  } catch (error) {
-    console.error("Cancel failed:", error?.response?.data || error.message);
-    
-  }
-};
+      const res = await axios.post(
+        `${backendurl}/api/order/cancel`,
+        { orderId },
+        {
+          headers: { token },
+        }
+      );
 
-
+      alert(res.data.message);
+      loadorderdata(); // Reload after cancel
+    } catch (error) {
+      console.error("Cancel failed:", error?.response?.data || error.message);
+      alert("Cancel failed: " + (error?.response?.data?.message || error.message));
+    }
+  };
 
   useEffect(() => {
     loadorderdata();
@@ -82,7 +74,7 @@ const Orders = () => {
         {orderData.map((item, index) => (
           <div
             key={index}
-            className="py-4 border-t border-b text-gray-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4 "
+            className="py-4 border-t border-b text-gray-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
           >
             <div className="flex items-start gap-6 text-sm">
               <img src={item.image[0]} className="w-16 sm:w-20" alt="" />
@@ -94,19 +86,16 @@ const Orders = () => {
                     {item.price + 10}
                   </p>
                   <p>Quantity: {item.quantity}</p>
-                  <p>Size: {item.size} </p>
+                  <p>Size: {item.size}</p>
                 </div>
                 <p className="mt-1">
                   Date:{" "}
-                  <span className="text-gray-400 ">
+                  <span className="text-gray-400">
                     {new Date(item.date).toDateString()}
                   </span>
                 </p>
                 <p className="mt-1">
-                  Payment:{" "}
-                  <span className="text-gray-400 ">
-                    {item.paymentMethod}
-                  </span>
+                  Payment: <span className="text-gray-400">{item.paymentMethod}</span>
                 </p>
               </div>
             </div>
@@ -140,7 +129,7 @@ const Orders = () => {
 
                 {["Order Placed", "Packing"].includes(item.status) && (
                   <button
-                    onClick={() =>handleCancelOrder(item.orderId)}
+                    onClick={() => handleCancelOrder(item.orderId)}
                     className="border px-4 py-2 text-sm font-medium rounded-sm text-red-500 border-red-500"
                   >
                     Cancel

@@ -4,7 +4,7 @@ import {toast} from 'react-toastify';
 import Reset from "../pages/Reset";
 import { useNavigate } from "react-router-dom";
 import Login from "../pages/Login";
-import Verification from "../pages/Verification";
+
 const ShopContext = createContext();
 const ShopContextProvider = (props)=>{
     const currency ='$';

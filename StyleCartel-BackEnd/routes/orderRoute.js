@@ -11,7 +11,7 @@ orderRouter.post('/razorpay',authuser, placeOrderRazorpay);
 orderRouter.post('/stripe',authuser, placeOrderStripe);
 orderRouter.post('/userorders', authuser, userOrders);
 orderRouter.post('/verifystripe', authuser,verifyStripe); 
-orderRouter.delete('/cancel', cancelOrder); // ✅ cancel route
+orderRouter.post('/cancel', cancelOrder); // ✅ cancel route
 
 
 export default orderRouter;

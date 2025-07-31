@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { assets } from '../assets/assets'
+import { assets } from '../../../../admin/src/assets/assets'
 import axios from 'axios'
-import { backendUrl } from '../App'
+import { backendUrl } from '../../../../admin/src/App'
 import { toast } from 'react-toastify'
 
 const Add = ({ token }) => {

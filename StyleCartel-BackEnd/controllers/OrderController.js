@@ -123,29 +123,24 @@ const allOrders = async (req, res) => {
 };
  const cancelOrder = async (req, res) => {
   try {
-    const { orderId  } = req.body ||{};
-    // from authuser middleware
-
-    const order = await orderModel.findOne({  orderId });
-    if (!order) {
-      return res.status(404).json({ success: false, message: "Order not found or unauthorized" });
+    const { orderId } = req.body;
+    if (!orderId) {
+      return res.status(400).json({ success: false, message: "Missing order ID" });
     }
 
-    // Allow cancellation only if status is not shipped/delivered
-    if (!["Order Placed", "Packing"].includes(order.status)) {
-      return res.status(400).json({ success: false, message: "Order can't be cancelled at this stage" });
+    const deletedOrder = await orderModel.findOneAndDelete({ _id: orderId });
+
+    if (!deletedOrder) {
+      return res.status(404).json({ success: false, message: "Order not found or already deleted" });
     }
 
-    order.status = "Cancelled";
-    const neworder = await orderModel.findByIdAndDelete(orderId);
-    await order.save();
-
-    res.json({ success: true, message: "Order cancelled successfully" });
+    res.json({ success: true, message: "Order cancelled and removed from database" });
   } catch (err) {
     console.error("Cancel order error:", err);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+
 
 
 const userOrders = async (req, res) => {

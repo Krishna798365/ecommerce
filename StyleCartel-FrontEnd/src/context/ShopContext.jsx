@@ -10,6 +10,7 @@ const ShopContextProvider = (props)=>{
     const currency ='$';
     const delivery_fee= 10;
     const backendurl = import.meta.env.VITE_BACKEND_URL
+    const adminurl = import.meta.env.VITE_ADMIN_FRONTEND_URL
     const [products,setproducts] = useState([]);
     const [search,setsearch] = useState('');
     const [showSearch,setshowSearch]=useState(false);
@@ -100,7 +101,8 @@ const getCartTotal = ()=>{
 }
 const getproductsdata=async () => {
     try {
-        const response = await axios.get(backendurl+'/api/product/list')
+        const response = await axios.get(backendurl+'/api/productfrontend/get');
+        
         if (response.data.success) {
             setproducts(response.data.products)
         }else{
@@ -127,12 +129,19 @@ const getusercart = async(token)=>{
 useEffect(()=>{
   getproductsdata();
 },[products])
-useEffect(()=>{
-    if (!token && localStorage.getItem('token')) {
-        settoken(localStorage.getItem('token'))
-        getusercart(localStorage.getItem('token'))
-    }
-},[])
+useEffect(() => {
+  const storedToken = localStorage.getItem('token');
+  if (storedToken) {
+    settoken(storedToken);
+  }
+}, []);
+
+// Step 2: Fetch cart data once token is set
+useEffect(() => {
+  if (token) {
+    getusercart(token);
+  }
+}, [token]);
     const value={
         products,
         currency,delivery_fee

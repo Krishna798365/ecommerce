@@ -11,7 +11,7 @@ function ResetPassword() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post(`http://localhost:4000/reset-password/${id}/${token}`, { password })
+      .post(`http://localhost:4000/api/user/reset-password/${id}/${token}`, { password })
       .then((res) => {
         if (res.data.Status === 'Success') {
           navigate('/login');

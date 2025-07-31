@@ -27,7 +27,7 @@ const MyProfile = () => {
         });
 
         setProfile(res.data.user);
-        console.log(res.data.user);
+        
       } catch (error) {
               console.log(error);
         toast.error(error.message);
@@ -84,7 +84,7 @@ useEffect(() => {
               className="w-24 h-24 mx-auto rounded-full border-2 border-black-400 object-cover"
             />
             <h2 className="mt-4 text-xl font-bold text-gray-800 sm:text-m md:l">{profile.name}</h2>
-            <p className="text-gray-500">{profile.email}</p>
+           
           </div>
 
           <div className="space-y-4">

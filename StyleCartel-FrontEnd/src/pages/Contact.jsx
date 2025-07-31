@@ -16,9 +16,7 @@ const Contact = () => {
           <p className='font-semibold text-xl text-gray-600'>Our Store</p>
           <p className='text-gray-500'>23584 Delhi Station <br/> sector 34,Delhi,India</p>
           <p className='text-gray-500'>Tel: (+91) 34987 94589 <br/> Email: admin@Forever.com</p>
-          <p className='font-semibold text-xl text-gray-600'>Careers at Forever</p>
-          <p className='text-gray-500'>Learn more about our teams and job opening.</p>
-          <p className='border border-black px-8 py-4 text-sm hover:bg-black hover:text-white transition-all duration-500'> Explore Jobs</p>
+         
         </div>
       </div>
       <OurPolicy />

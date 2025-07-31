@@ -4,7 +4,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { ShopContext } from '../context/ShopContext'
 const Navbar = () => {
   const [visible,setVisible] = useState(false)
-  const {setshowSearch,getcartcount,navigate,token,settoken , setcartitems} = useContext(ShopContext);
+  const {setshowSearch,getcartcount,navigate,token,settoken , setcartitems , adminurl} = useContext(ShopContext);
  const logout=()=>{
   navigate('/login')
   localStorage.removeItem('token')
@@ -33,6 +33,10 @@ const Navbar = () => {
         <p>CONTACT</p>
         <hr className='w-2/4 border-t-2 border-gray-700 hidden'/>
       </NavLink>
+      {/* <a href="http://localhost:5174/" target="_blank" class="border px-5 text-xs py-1 rounded-full -mt-2">
+      <p class="mt-1">Admin Panel</p>
+      </a> */}
+
      </ul>
      <div className='flex items-center gap-6'>
       <img onClick={()=> setshowSearch(true)}src={assets.search_icon} alt="" className='w-5 cursor-pointer'/>
@@ -56,10 +60,10 @@ const Navbar = () => {
       <p className='absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-square rounded-full text-[-8px]'>{getcartcount()}</p>
       </Link>
      
-        <img onClick={()=> setVisible(true)}src={assets.menu_icon} className='w-5' alt=''/>
+        <img onClick={()=> setVisible(true)}src={assets.menu_icon} className='w-5 cursor-pointer sm:hidden' alt=''/>
       
       {/*sidebar menu for small screen */}
-     <div className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${visible ? 'w-full' : 'w-0'}`}>
+     <div className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all ${visible ? 'w-[1/2]' : 'w-0'}`}>
         <div  className='flex flex-col text-gray-700'>
           <div onClick={()=>setVisible(false)} className='flex items-center gap-4 p-3 cursor-pointer'>
             <img src={assets.dropdown_icon} className='h-4 rotate-180'  alt=""/>
@@ -69,7 +73,9 @@ const Navbar = () => {
           <NavLink onClick={()=>setVisible(false)}className='py-2 pl-6 border' to='/collection'>Collections</NavLink>
           <NavLink onClick={()=>setVisible(false)}className='py-2 pl-6 border' to='/about'>About</NavLink>
           <NavLink onClick={()=>setVisible(false)}className='py-2 pl-6 border' to='/contact'>Contact</NavLink>
-
+          {/* <a href="http://localhost:5174/" target="_blank" class="border px-5 text-xs py-1 rounded-full mt-5">
+      <p class="mt-1">ADMIN PANEL</p>
+      </a> */}
         </div>
      </div>
      </div>

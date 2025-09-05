@@ -101,7 +101,7 @@ const getCartTotal = ()=>{
 }
 const getproductsdata=async () => {
     try {
-        const response = await axios.get(backendurl+'/api/productfrontend/get');
+        const response = await axios.get(backendurl+'/api/productfrontend/gett');
         
         if (response.data.success) {
             setproducts(response.data.products)

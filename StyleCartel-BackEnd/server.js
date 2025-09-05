@@ -26,6 +26,13 @@ const limiter = rateLimit({
   max: 5, // limit each IP to 5 requests per 10s
   message: 'Too many requests. Try again shortly.',
 });
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self';"
+  );
+  next();
+});
 
 app.use(express.json())
 app.use(cors())

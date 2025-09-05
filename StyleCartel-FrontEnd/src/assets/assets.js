@@ -60,7 +60,7 @@ import logo4 from './Logo 4.png'
 
 
 
-import logo from './Logo.png'
+
 import hero_img from './hero_img.png'
 import cart_icon from './cart_icon.png'
 import bin_icon from './bin_icon.png'
@@ -85,7 +85,7 @@ export const assets = {
     NewProf,
 
     logo2,logo3,logo4,
-    logo,
+
     hero_img,
     cart_icon,
     dropdown_icon,

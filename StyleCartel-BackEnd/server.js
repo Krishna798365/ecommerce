@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import 'dotenv/config'
 import connectDB from './config/mongodb.js'
 import connectCloundinary from './config/cloudinary.js'
@@ -14,12 +14,18 @@ import jwt from 'jsonwebtoken'
 import UserModel from './models/usermodel.js'
 import bcrypt from 'bcrypt'
 import cookieParser from 'cookie-parser'
+import rateLimit from 'express-rate-limit'
 //App config
 const app = express()
 const port = process.env.PORT || 4000
 connectDB()
 connectCloundinary()
 //MIDDLEWARES
+const limiter = rateLimit({
+  windowMs: 10 * 1000, // 10 seconds
+  max: 5, // limit each IP to 5 requests per 10s
+  message: 'Too many requests. Try again shortly.',
+});
 
 app.use(express.json())
 app.use(cors())
@@ -30,8 +36,42 @@ app.use('/api/product', productrouter);
 app.use('/api/cart', cartrouter);
 app.use('/api/order', orderRouter);
 app.use('/api/productfrontend', productRouter);
+app.use('/api/chat', limiter);
 
-// ✅ Define custom routes BEFORE listen
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_SECRET_KEY);
+
+
+app.post('/api/chat', async (req, res) => {
+  try {
+    const userMessage = req.body.message;
+    if (
+      !userMessage.includes("fashion") &&
+      !userMessage.includes("clothing") &&
+      !userMessage.includes("style") &&
+      !userMessage.includes("outfit") &&
+      !userMessage.includes("dress") &&
+      !userMessage.includes("trends")
+    ) {
+      return res.json({
+        reply: "I can only help you with fashion, clothing, and styling related questions. 👗✨"
+      });
+    }
+
+    const model = genAI.getGenerativeModel({
+      model: 'gemini-2.5-flash', // this is correct
+    });
+
+    const result = await model.generateContent(userMessage);
+    const response = await result.response;
+    const text = response.text();
+
+    res.json({ reply: text });
+  } catch (err) {
+    console.error('Gemini Error:', err);
+    res.status(500).json({ reply: 'Gemini AI error. Please try again later.' });
+  }
+});
+
 app.post('/api/user/forgot-password', async (req, res) => {
   const { email } = req.body;
   try {

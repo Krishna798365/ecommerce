@@ -60,7 +60,7 @@ const Login = () => {
         toast.error(response.data.message);
       }
     } catch (err) {
-      toast.error("Google authentication failed.");
+      
     }
   };
 

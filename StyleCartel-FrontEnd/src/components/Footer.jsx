@@ -1,41 +1,86 @@
-import React from 'react'
-import { assets } from '../assets/assets'
-import { NavLink } from 'react-router-dom'
+import React from "react";
+import { assets } from "../assets/assets";
+import { NavLink } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div>
-      <div className='flex flex-col sm:grid grid-cols-[3fr_1fr_1fr] gap-14 my-10 mt40 text-sm'>
+    <footer className=" text-gray-700 mt-20">
+      <div className="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 sm:grid-cols-3 gap-10">
+        
+        {/* Brand / About Section */}
         <div>
-          <img src={assets.logo2} className='mb-5 w-50' alt="" />
-          <p className='w-full md:w-2/3 text-gray-600'>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore sapiente dolorem illum, quidem excepturi soluta, repellendus error omnis eos tempore vitae? Eos ad, error distinctio quo rem voluptatibus dolore.
+          <img src={assets.logo2} className="mb-4 w-32" alt="StyleCartel Logo" />
+          <p className="text-sm leading-relaxed text-gray-600">
+            Discover the latest trends in fashion with StyleCartel. We bring you
+            elegant, modern, and timeless clothing that fits your lifestyle.
           </p>
         </div>
-        <div>
-          <p className='text-xl font-medium mb-r'>COMPANY</p>
-          <ul className='flex flex-col gap-1 text-gray-600'>
-            <NavLink to ='/'  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Home</NavLink>
-            <NavLink  to ='/about'  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>About Us</NavLink >
-            <NavLink to ='/orders'  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} >Orders</NavLink >
-            <NavLink  to ='/contact'  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Contact</NavLink >
 
-          </ul>
-        </div>
+        {/* Company Links */}
         <div>
-          <p className='text-xl font-meadium mb-5'>GET IN TOUCH</p>
-          <ul className='flex flex-col gap-1 text-gray-600'>
-            <li>+1-212-456-7890</li>
-            <li>Contact@StyleCartel.com</li>
+          <h3 className="text-lg font-semibold mb-4">Company</h3>
+          <ul className="flex flex-col gap-2 text-sm">
+            <NavLink
+              to="/"
+              className="hover:text-pink-500 transition"
+              onClick={() =>
+                window.scrollTo({ top: 0, behavior: "smooth" })
+              }
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/about"
+              className="hover:text-pink-500 transition"
+              onClick={() =>
+                window.scrollTo({ top: 0, behavior: "smooth" })
+              }
+            >
+              About Us
+            </NavLink>
+            <NavLink
+              to="/orders"
+              className="hover:text-pink-500 transition"
+              onClick={() =>
+                window.scrollTo({ top: 0, behavior: "smooth" })
+              }
+            >
+              Orders
+            </NavLink>
+            <NavLink
+              to="/contact"
+              className="hover:text-pink-500 transition"
+              onClick={() =>
+                window.scrollTo({ top: 0, behavior: "smooth" })
+              }
+            >
+              Contact
+            </NavLink>
           </ul>
         </div>
-        <div >
-          <hr/>
-          <p className='py-5 text-sm text-center'>Copyright 2024@ StyleCartel.com-All Right Reserved</p>
+
+        {/* Contact Info */}
+        <div>
+          <h3 className="text-lg font-semibold mb-4">Get in Touch</h3>
+          <ul className="text-sm space-y-2">
+            <li className="hover:text-pink-500 transition cursor-pointer">
+              📞 (+91) 34987 94589
+            </li>
+            <li className="hover:text-pink-500 transition cursor-pointer">
+              ✉️ admin@StyleCartel.com
+            </li>
+          </ul>
         </div>
       </div>
-    </div>
-  )
-}
 
-export default Footer
+      {/* Divider & Copyright */}
+      <div className="border-t border-gray-200 mt-6">
+        <p className="py-6 text-xs text-center text-gray-500">
+          © {new Date().getFullYear()} StyleCartel.com — All Rights Reserved
+        </p>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;

@@ -33,9 +33,6 @@ const Navbar = () => {
         <p>CONTACT</p>
         <hr className='w-2/4 border-t-2 border-gray-700 hidden'/>
       </NavLink>
-      {/* <a href="http://localhost:5174/" target="_blank" class="border px-5 text-xs py-1 rounded-full -mt-2">
-      <p class="mt-1">Admin Panel</p>
-      </a> */}
 
      </ul>
      <div className='flex items-center gap-6'>
@@ -73,9 +70,7 @@ const Navbar = () => {
           <NavLink onClick={()=>setVisible(false)}className='py-2 pl-6 border' to='/collection'>Collections</NavLink>
           <NavLink onClick={()=>setVisible(false)}className='py-2 pl-6 border' to='/about'>About</NavLink>
           <NavLink onClick={()=>setVisible(false)}className='py-2 pl-6 border' to='/contact'>Contact</NavLink>
-          {/* <a href="http://localhost:5174/" target="_blank" class="border px-5 text-xs py-1 rounded-full mt-5">
-      <p class="mt-1">ADMIN PANEL</p>
-      </a> */}
+     
         </div>
      </div>
      </div>

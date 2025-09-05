@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { backendUrl } from '../../../../admin/src/App'
+import { backendUrl } from '../App'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 const Login = ({settoken}) => {
